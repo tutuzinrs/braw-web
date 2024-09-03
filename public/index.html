@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Web site created using create-react-app" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <title>Championship Markts Braw</title>
+    <style>
+      #logo-container {
+        position: absolute;
+        top: 280px;
+        left: 140px;
+        z-index: 1000;
+      }
+      #another-image-container {
+        position: absolute;
+        top: 200px; /* Ajuste se necessário */
+        right: 120px; /* Distância do lado direito */
+        z-index: 1000;
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <!-- Adicione a logo no canto superior esquerdo -->
+    <div id="logo-container">
+      <img src="/logo.png" alt="Logo" style="width: 300px; height: auto;" />
+    </div>
+    <!-- Adicione a nova imagem no canto superior direito -->
+    <div id="another-image-container">
+      <img src="/QRcode.jpg" alt="Another Image" style="width: 270px; height: auto;" />
+    </div>
+  </body>
+</html>
