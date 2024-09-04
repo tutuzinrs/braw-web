@@ -258,7 +258,7 @@ const styles = {
   },
   championContainer: {
     position: 'fixed',
-    bottom: '63%',
+    bottom: '65%',
     left: '85%',
     display: 'flex',
     flexDirection: 'column',
@@ -275,7 +275,7 @@ const styles = {
   },
   championTitle: {
     fontSize: '24px',
-    marginBottom: '44px',
+    marginBottom: '45px',
     fontWeight: 'bold',
     margin: '0',
   },
