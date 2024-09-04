@@ -3,35 +3,46 @@ import axios from 'axios';
 import goldCrown from '../icons/goldCrown.svg';
 import silverCrown from '../icons/silverCrown.svg';
 import bronzeCrown from '../icons/bronzeCrown.svg';
+import podioImage from '../icons/podio.jpeg'; // Atualizado para incluir a imagem do pódio
 
 const Ranking = () => {
   const [ranking, setRanking] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [victoryBarHeights, setVictoryBarHeights] = useState({});
-  const [pixKey, setPixKey] = useState('');
-  const [qrCodeUrl, setQrCodeUrl] = useState('');
+  const [lastChampion, setLastChampion] = useState(null);
 
   useEffect(() => {
     const fetchRanking = async () => {
       try {
         const response = await axios.get('https://brawlhalla-championship-backend.onrender.com/users');
         const players = response.data;
+        console.log("Ranking data:", players);
 
         const sortedRanking = players.sort((a, b) => b.victorys - a.victorys);
 
-        const lastSeasonChamp = sortedRanking[0];
-        setPixKey(lastSeasonChamp?.pix_key || '');
-        setRanking(players);
+        setRanking(sortedRanking);
         setLoading(false);
-
       } catch (err) {
         setError(err.message);
         setLoading(false);
       }
     };
 
+    const fetchLastChampion = async () => {
+      try {
+        const response = await axios.get('https://brawlhalla-championship-backend.onrender.com/championship/last-champion');
+        console.log("Last champion data:", response.data);
+
+        // Ajustar para acessar a propriedade correta
+        setLastChampion(response.data.champion);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
     fetchRanking();
+    fetchLastChampion();
   }, []);
 
   useEffect(() => {
@@ -48,11 +59,9 @@ const Ranking = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
-  const sortedRanking = ranking.sort((a, b) => b.victorys - a.victorys);
-
-  const topPlayers = sortedRanking.slice(0, 3);
-  const leftPlayers = sortedRanking.slice(3, 6);
-  const rightPlayers = sortedRanking.slice(6, 9);
+  const topPlayers = ranking.slice(0, 3);
+  const leftPlayers = ranking.slice(3, 6);
+  const rightPlayers = ranking.slice(6, 9);
 
   return (
     <div style={styles.container}>
@@ -76,7 +85,6 @@ const Ranking = () => {
 
         <div style={styles.sectionCenter}>
           {topPlayers.map((player, index) => {
-            // Verifica se o jogador deve receber uma coroa
             const showCrown =
               (index === 0 && player.victorys > 0) ||
               (index === 1 && player.victorys > 0 && topPlayers[0].victorys > player.victorys) ||
@@ -119,6 +127,22 @@ const Ranking = () => {
           ))}
         </div>
       </div>
+
+      {lastChampion && (
+        <div
+          style={{
+            ...styles.championContainer,
+            backgroundImage: `url(${podioImage})`, // Adiciona a imagem de fundo
+          }}
+        >
+          <div style={styles.overlay}></div> {/* Imagem preta adicionada */}
+          <h3 style={styles.championTitle}>Último Campeão</h3>
+          <div style={styles.championAvatarContainer}>
+            <img src={lastChampion.avatar_url} alt={lastChampion.name} style={styles.championAvatar} />
+          </div>
+          <h4 style={styles.championName}>{lastChampion.name}</h4>
+        </div>
+      )}
     </div>
   );
 };
@@ -231,6 +255,47 @@ const styles = {
     transform: 'translateX(-50%) rotate(10deg)',
     width: '60px',
     height: 'auto',
+  },
+  championContainer: {
+    position: 'fixed',
+    bottom: '65%',
+    left: '85%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: '20px',
+    border: '3px solid gold',
+    borderRadius: '10px',
+    margin: '20px auto',
+    maxWidth: '300px',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)', // Escurecer ainda mais o fundo
+    color: '#fff', // Cor do texto para contraste
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  },
+  championTitle: {
+    fontSize: '24px',
+    marginBottom: '40px',
+    fontWeight: 'bold',
+    margin: '0',
+  },
+  championAvatarContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginBottom: '25px',
+  },
+  championAvatar: {
+    width: '120px',
+    height: '120px',
+    borderRadius: '50%',
+    border: '3px solid gold',
+  },
+  championName: {
+    fontSize: '20px',
+    marginBottom: '10px',
+    fontWeight: 'bold',
+    color: '#fff', // Cor do texto para contraste
+    margin: '0',
   },
 };
 
