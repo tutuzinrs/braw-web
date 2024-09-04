@@ -258,7 +258,7 @@ const styles = {
   },
   championContainer: {
     position: 'fixed',
-    bottom: '65%',
+    bottom: '63%',
     left: '85%',
     display: 'flex',
     flexDirection: 'column',
@@ -275,14 +275,14 @@ const styles = {
   },
   championTitle: {
     fontSize: '24px',
-    marginBottom: '40px',
+    marginBottom: '44px',
     fontWeight: 'bold',
     margin: '0',
   },
   championAvatarContainer: {
     display: 'flex',
     justifyContent: 'center',
-    marginBottom: '25px',
+    marginBottom: '30px',
   },
   championAvatar: {
     width: '120px',
@@ -291,8 +291,8 @@ const styles = {
     border: '3px solid gold',
   },
   championName: {
-    fontSize: '20px',
-    marginBottom: '10px',
+    fontSize: '21px',
+    marginBottom: '11px',
     fontWeight: 'bold',
     color: '#fff', // Cor do texto para contraste
     margin: '0',
