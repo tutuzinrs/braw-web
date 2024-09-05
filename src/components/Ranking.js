@@ -240,12 +240,12 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: '45px 25px',
-    border: '3px solid gold',
+    padding: '90px 90px',
+    border: '3px solid #FF0000',
+    boxShadow: '0 0 10px #FF0000', 
     borderRadius: '10px',
     margin: '20px auto',
     maxWidth: '300px',
-    backgroundColor: 'rgba(0, 0, 0, 0.7)', // Escurecer ainda mais o fundo
     color: '#fff', // Cor do texto para contraste
     backgroundSize: 'cover',
     backgroundPosition: 'center',
@@ -253,25 +253,29 @@ const styles = {
   championTitle: {
     position: 'absolute',
     fontSize: '15px',
-    bottom: '135px',
+    bottom: '150px',
     fontWeight: 'bold',
     margin: '0',
   },
   championAvatarContainer: {
     display: 'flex',
     justifyContent: 'center',
+    Top: '50%',
     marginBottom: '-7px',
   },
   championAvatar: {
+    position: "absolute",
     width: '80px',
     height: '80px',
     borderRadius: '50%',
-    border: '3px solid gold',
+    marginTop: '-25%',
+    border: '3px solid #FF0000',
+    boxShadow: '0 0 10px #FF0000', 
   },
   championName: {
     position: 'absolute',
     fontSize: '15px',
-    bottom: '10px',
+    bottom: '1px',
     fontWeight: 'bold',
     color: '#fff', // Cor do texto para contraste
     margin: '0',
