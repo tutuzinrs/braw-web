@@ -183,7 +183,7 @@ const styles = {
     height: '100px',
     borderRadius: '50%',
     marginBottom: '5px',
-    border: '3px solid black',
+    border: '2px solid #fff',
   },
   details: {
     textAlign: 'center',
@@ -191,12 +191,13 @@ const styles = {
   },
   name: {
     fontSize: '20px',
+    color: '#fff',
     fontWeight: 'bold',
     margin: '0',
   },
   victories: {
     fontSize: '15px',
-    color: '#000000',
+    color: '#fff',
     fontWeight: 'bold',
     margin: '0',
     marginTop: '5px',
@@ -205,6 +206,8 @@ const styles = {
     width: '90px',
     height: 0,
     backgroundColor: '#730065',
+    border: '3px solid #730065',
+    boxShadow: '0 0 10px #730065', 
     transition: 'height 1s ease-in-out',
     marginTop: '5px',
     borderRadius: '12px 12px 0px 0px'
@@ -212,7 +215,7 @@ const styles = {
   crownGold: {
     position: 'absolute',
     top: '-47px',
-    left: '34%',
+    left: '34%', 
     transform: 'translateX(-50%) rotate(-15deg)',
     width: '60px',
     height: 'auto',

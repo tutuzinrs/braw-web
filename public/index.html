@@ -8,20 +8,50 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <title>Championship Markts Braw</title>
     <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-image: url('/fundo.jpg');
+        background-size: cover; /* Ajusta o tamanho da imagem de fundo para cobrir todo o container */
+        background-position: center; /* Posiciona a imagem de fundo ao centro */
+        background-repeat: no-repeat; /* Evita que a imagem de fundo se repita */
+        position: relative; /* Necessário para posicionar a sobreposição */
+        overflow: hidden; /* Garante que o conteúdo não ultrapasse os limites */
+      }
+
+      #overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('/blackOverlay.png');
+        background-size: cover; /* Ajusta o tamanho da imagem de sobreposição para cobrir o container */
+        background-position: center; /* Posiciona a imagem de sobreposição ao centro */
+        background-repeat: no-repeat; /* Evita que a imagem de sobreposição se repita */
+        opacity: 0.7; /* Ajuste a opacidade conforme necessário */
+        z-index: 1; /* Coloca a sobreposição abaixo do conteúdo React */
+      }
+
       #logo-container {
         position: fixed;
         top: 80px;
         left: 50px;
-        z-index: 1000;
+        z-index: 2; /* Garante que a logo esteja acima da sobreposição e do fundo */
+      }
+
+      #root {
+        position: relative; /* Permite que o conteúdo React se posicione acima da sobreposição */
+        z-index: 2; /* Garante que o conteúdo React esteja acima da sobreposição */
       }
     </style>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!-- Adicione a logo no canto superior esquerdo -->
+    <div id="overlay"></div>
     <div id="logo-container">
       <img src="/logo.png" alt="Logo" style="width: 200px; height: auto;" />
     </div>
+    <div id="root"></div> <!-- Conteúdo React será renderizado aqui -->
   </body>
 </html>
