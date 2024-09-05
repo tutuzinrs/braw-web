@@ -11,7 +11,9 @@ const Ranking = () => {
   const [error, setError] = useState(null);
   const [victoryBarHeights, setVictoryBarHeights] = useState({});
   const [lastChampion, setLastChampion] = useState(null);
+  const [allPlayers, setAllPlayers] = useState([]); // Para armazenar todos os jogadores
 
+  // Fetch ranking data and process player list
   useEffect(() => {
     const fetchRanking = async () => {
       try {
@@ -19,17 +21,19 @@ const Ranking = () => {
         const players = response.data;
         console.log("Ranking data:", players);
 
+        setAllPlayers(players); // Armazenar todos os jogadores
+        
         const sortedRanking = players.sort((a, b) => a.victorys - b.victorys);
         const newRank = [];
-        for(let i = sortedRanking.length - 1 ; i >= 0; i--) {
-          if(i % 2 === 0) {
+        for (let i = sortedRanking.length - 1; i >= 0; i--) {
+          if (i % 2 === 0) {
             newRank.push(sortedRanking[i]);
           } else {
             newRank.unshift(sortedRanking[i]);
           }
         }
 
-        if(newRank[3].victorys < newRank[5].victorys) {
+        if (newRank[3].victorys < newRank[5].victorys) {
           const position4 = newRank[3];
           const position6 = newRank[5];
           newRank[3] = position6;
@@ -41,7 +45,7 @@ const Ranking = () => {
       } catch (err) {
         setError(err.message);
         setLoading(false);
-        console.log(err.message)
+        console.log(err.message);
       }
     };
 
@@ -50,11 +54,10 @@ const Ranking = () => {
         const response = await axios.get('https://brawlhalla-championship-backend.onrender.com/championship/last-champion');
         console.log("Last champion data:", response.data);
 
-        // Ajustar para acessar a propriedade correta
         setLastChampion(response.data.champion);
       } catch (err) {
         setError(err.message);
-        console.log(err.message)
+        console.log(err.message);
       }
     };
 
@@ -62,26 +65,26 @@ const Ranking = () => {
     fetchLastChampion();
   }, []);
 
+  // Update victory bar heights when ranking changes
   useEffect(() => {
-    if (ranking.length > 0) {
-      const maxVictories = Math.max(...ranking.map(player => player.victorys));
-      const heights = ranking.reduce((acc, player) => {
-        acc[player.id] = (player.victorys / maxVictories) * 27;
+    if (allPlayers.length > 0) {
+      const maxVictories = Math.max(...allPlayers.map(player => player.victorys));
+      const isSmallScreen = window.innerWidth < 1400;
+      const scaleFactor = isSmallScreen ? 25 : 30;
+      const heights = allPlayers.reduce((acc, player) => {
+        acc[player.id] = (player.victorys / maxVictories) * scaleFactor;
         return acc;
       }, {});
       setVictoryBarHeights(heights);
     }
-  }, [ranking]);
+  }, [allPlayers]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
-    // 
-
     <div style={styles.fileira}>
-       
-    <div style={styles.container}>
+      <div style={styles.container}>
         <div style={styles.sectionCenter}>
           {ranking.map((player, index) => {
             const showCrown =
@@ -109,21 +112,21 @@ const Ranking = () => {
           })}
         </div>
         {lastChampion && (
-        <div
-          style={{
-            ...styles.championContainer,
-            backgroundImage: `url(${podioImage})`, // Adiciona a imagem de fundo
-          }}
-        >
-          <div style={styles.overlay}></div> {/* Imagem preta adicionada */}
-          <h3 style={styles.championTitle}>Último Campeão</h3>
-          <div style={styles.championAvatarContainer}>
-            <img src={lastChampion.avatar_url} alt={lastChampion.name} style={styles.championAvatar} />
+          <div
+            style={{
+              ...styles.championContainer,
+              backgroundImage: `url(${podioImage})`, // Adiciona a imagem de fundo
+            }}
+          >
+            <div style={styles.overlay}></div> {/* Imagem preta adicionada */}
+            <h3 style={styles.championTitle}>Último Campeão</h3>
+            <div style={styles.championAvatarContainer}>
+              <img src={lastChampion.avatar_url} alt={lastChampion.name} style={styles.championAvatar} />
+            </div>
+            <h4 style={styles.championName}>{lastChampion.name}</h4>
           </div>
-          <h4 style={styles.championName}>{lastChampion.name}</h4>
-        </div>
-      )}
-    </div>    
+        )}
+      </div>    
     </div>
   );
 };
@@ -135,15 +138,7 @@ const styles = {
     left: 0,
     width: '100%',
     boxSizing: 'border-box',
-  },
-  fileira: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    width: '100%',
-    maxWidth: '120px',
-    margin: 'auto',
-    gap: '50px',
+
   },
   sectionLeft: {
     display: 'flex',
@@ -160,7 +155,7 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'end',
-    gap: '60px',
+    gap: '35px',
     flex: 1,
     padding: '1px',
     borderRadius: '10px',
